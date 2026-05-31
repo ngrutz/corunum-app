@@ -191,7 +191,7 @@ export default function PalcoClient() {
         <span className="text-zinc-400">Fonte</span>
 
         <button
-          onClick={() => setFonte((f) => Math.max(2, f - 0.5))}
+          onClick={() => setFonte((f) => Math.max(0.8, f - 0.25))}
           className="bg-zinc-800 px-4 py-2 rounded"
         >
           A-
@@ -208,7 +208,7 @@ export default function PalcoClient() {
       </div>
     </div>
 
-      <div ref={containerRef} className="flex-1 overflow-auto p-12">
+      <div ref={containerRef} className="overflow-x-auto">
         {musicaAtual && (
           <>
             <h1 className="text-3xl mb-8">{musicaAtual.titulo}</h1>
