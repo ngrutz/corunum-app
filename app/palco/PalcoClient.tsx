@@ -73,9 +73,6 @@ export default function PalcoClient() {
 
     setFullscreen(true);
 
-    setTimeout(() => {
-    setMostrarControles(false);
-  }, 1500);
   }
   }
 
@@ -103,38 +100,7 @@ export default function PalcoClient() {
   };
   }, []);
 
-  useEffect(() => {
-  const handleFullscreenChange = () => {
-    const ativo = !!document.fullscreenElement;
-
-    setFullscreen(ativo);
-
-    if (!ativo) {
-      setMostrarControles(true);
-    }
-  };
-  useEffect(() => {
-  if (!fullscreen || !mostrarControles) return;
-
-  const timer = setTimeout(() => {
-    setMostrarControles(false);
-  }, 5000);
-
-  return () => clearTimeout(timer);
-  }, [mostrarControles, fullscreen]);
-
-  document.addEventListener(
-    "fullscreenchange",
-    handleFullscreenChange
-  );
-
-  return () => {
-    document.removeEventListener(
-      "fullscreenchange",
-      handleFullscreenChange
-    );
-  };
-  }, []);
+  
 
   const musicaAtual = musicas[indice];
 
@@ -169,29 +135,25 @@ export default function PalcoClient() {
     return notas[novoIndex] + resto;
   }
 
-  {fullscreen && (
-  <button
-    onClick={() => setMostrarControles((v) => !v)}
-    className="
-      fixed
-      top-4
-      right-4
-      z-50
-      bg-zinc-800
-      text-white
-      px-3
-      py-2
-      rounded-full
-      opacity-70
-      hover:opacity-100
-    "
-  >
-    ⚙
-  </button>
- )}
-
   return (
     <main className="h-screen bg-black text-white flex flex-col">
+      <button
+  onClick={() => setMostrarControles((v) => !v)}
+  className="
+    fixed
+    top-4
+    right-4
+    z-50
+    bg-zinc-800
+    text-white
+    px-3
+    py-2
+    rounded-full
+    opacity-80
+  "
+>
+  ⚙
+</button>
   {mostrarControles && (
   <div className="p-4 border-b border-zinc-800 flex flex-wrap gap-6 text-sm">
   <div className="flex items-center gap-2">
@@ -308,7 +270,7 @@ export default function PalcoClient() {
 
             <pre
               style={{ fontSize: `${fonte}rem` }}
-              className={`whitespace-pre-wrap font-mono ${
+              className={`whitespace-pre font-mono ${
                 mostrarCifras ? "leading-loose" : "leading-[0.95]"
               }`}
             >
