@@ -155,7 +155,7 @@ export default function PalcoClient() {
   ⚙
 </button>
   {mostrarControles && (
-  <div className="p-4 border-b border-zinc-800 flex flex-wrap gap-6 text-sm">
+  <div className="px-4 py-2 border-b border-zinc-800 flex flex-wrap gap-6 text-sm">
   <div className="flex items-center gap-2">
     <span className="text-zinc-400">Músicas</span>
 
@@ -263,7 +263,7 @@ export default function PalcoClient() {
     </div>
     )}
 
-      <div ref={containerRef} className="overflow-x-auto">
+      <div ref={containerRef} className="overflow-x-auto px-8 pt-6 pb-12">
         {musicaAtual && (
           <>
             <h1 className="text-3xl mb-8">{musicaAtual.titulo}</h1>
@@ -271,7 +271,7 @@ export default function PalcoClient() {
             <pre
               style={{ fontSize: `${fonte}rem` }}
               className={`whitespace-pre font-mono ${
-                mostrarCifras ? "leading-loose" : "leading-[0.95]"
+                mostrarCifras ? "leading-loose" : "leading-[1.2]"
               }`}
             >
               {mostrarCifras
