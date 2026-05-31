@@ -27,6 +27,9 @@ export default function PalcoClient() {
 
   const [fonte, setFonte] = useState(4);
 
+  const [mostrarControles, setMostrarControles] = useState(true);
+  const [fullscreen, setFullscreen] = useState(false);
+
   async function carregarRepertorio() {
     if (!eventoId) return;
 
@@ -59,11 +62,79 @@ export default function PalcoClient() {
 
   function toggleFullscreen() {
     if (!document.fullscreenElement) {
-      document.documentElement.requestFullscreen();
-    } else {
-      document.exitFullscreen();
-    }
+    document.documentElement.requestFullscreen();
+    setFullscreen(true);
+  } else {
+    document.exitFullscreen();
+    setFullscreen(false);
   }
+    if (!document.fullscreenElement) {
+    document.documentElement.requestFullscreen();
+
+    setFullscreen(true);
+
+    setTimeout(() => {
+    setMostrarControles(false);
+  }, 1500);
+  }
+  }
+
+  useEffect(() => {
+  const handleFullscreenChange = () => {
+    const ativo = !!document.fullscreenElement;
+
+    setFullscreen(ativo);
+
+    if (!ativo) {
+      setMostrarControles(true);
+    }
+  };
+
+  document.addEventListener(
+    "fullscreenchange",
+    handleFullscreenChange
+  );
+
+  return () => {
+    document.removeEventListener(
+      "fullscreenchange",
+      handleFullscreenChange
+    );
+  };
+  }, []);
+
+  useEffect(() => {
+  const handleFullscreenChange = () => {
+    const ativo = !!document.fullscreenElement;
+
+    setFullscreen(ativo);
+
+    if (!ativo) {
+      setMostrarControles(true);
+    }
+  };
+  useEffect(() => {
+  if (!fullscreen || !mostrarControles) return;
+
+  const timer = setTimeout(() => {
+    setMostrarControles(false);
+  }, 5000);
+
+  return () => clearTimeout(timer);
+  }, [mostrarControles, fullscreen]);
+
+  document.addEventListener(
+    "fullscreenchange",
+    handleFullscreenChange
+  );
+
+  return () => {
+    document.removeEventListener(
+      "fullscreenchange",
+      handleFullscreenChange
+    );
+  };
+  }, []);
 
   const musicaAtual = musicas[indice];
 
@@ -98,10 +169,31 @@ export default function PalcoClient() {
     return notas[novoIndex] + resto;
   }
 
+  {fullscreen && (
+  <button
+    onClick={() => setMostrarControles((v) => !v)}
+    className="
+      fixed
+      top-4
+      right-4
+      z-50
+      bg-zinc-800
+      text-white
+      px-3
+      py-2
+      rounded-full
+      opacity-70
+      hover:opacity-100
+    "
+  >
+    ⚙
+  </button>
+ )}
 
   return (
     <main className="h-screen bg-black text-white flex flex-col">
-<div className="p-4 border-b border-zinc-800 flex flex-wrap gap-6 text-sm">
+  {mostrarControles && (
+  <div className="p-4 border-b border-zinc-800 flex flex-wrap gap-6 text-sm">
   <div className="flex items-center gap-2">
     <span className="text-zinc-400">Músicas</span>
 
@@ -207,6 +299,7 @@ export default function PalcoClient() {
         </button>
       </div>
     </div>
+    )}
 
       <div ref={containerRef} className="overflow-x-auto">
         {musicaAtual && (
